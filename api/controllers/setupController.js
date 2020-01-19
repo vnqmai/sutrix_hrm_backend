@@ -1,4 +1,6 @@
 var Staff = require('../models/staffModel');
+var Department = require('../models/departmentModel');
+var History = require('../models/staffHistoryModel');
 
 module.exports = function(app) {
     app.get('/api/setupStaff', function(req, res) {
@@ -7,6 +9,22 @@ module.exports = function(app) {
             if (err)
                 throw err;
             res.send(result);
+        })
+    })
+    app.get('/api/setupDepartment', function(req, res) {
+        var seedDepartment = [{ "departmentName": "Frontend" }, { "departmentName": "Backend" }];
+        Department.create(seedDepartment, function(err, result) {
+            if (err)
+                res.status(500).json(err);
+            res.json(result);
+        })
+    })
+    app.get('/api/setupHistory', function(req, res) {
+        var seedHistory = { "historyDate": "2010/10/20", "historyActivity": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. Lorem Ipsum is simply dummy text of the printing and typesetting." };
+        History.create(seedHistory, function(err, result) {
+            if (err)
+                res.status(500).json(err);
+            res.json(result);
         })
     })
 }

@@ -11,7 +11,8 @@ var staffSchema = Schema({
     skype: String,
     email: String,
     joinDate: Date,
-    department: String
+    department: { type: Schema.Types.ObjectId, ref: 'Department' },
+    histories: [{ type: Schema.Types.ObjectId, ref: 'StaffHistory' }]
         // department: {
         //     departmentName: String
         // },
