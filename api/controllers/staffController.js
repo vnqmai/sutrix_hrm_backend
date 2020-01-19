@@ -3,12 +3,14 @@ var bodyParser = require('body-parser');
 var jsonEncodeParser = bodyParser.json();
 
 function getAllStaff(res) {
-    Staff.find(function(err, result) {
-        if (err)
-            res.status(500).json(err);
+    Staff.find()
+        .populate('histories')
+        .exec(function(err, result) {
+            if (err)
+                res.status(500).json(err);
 
-        res.json(result);
-    })
+            res.json(result);
+        });
 }
 
 module.exports = function(app) {
