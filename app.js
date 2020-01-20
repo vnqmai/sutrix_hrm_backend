@@ -4,6 +4,7 @@ var config = require('./config');
 var staffController = require('./api/controllers/staffController');
 var staffHistoryController = require('./api/controllers/staffHistoryController');
 var departmentController = require('./api/controllers/departmentController');
+var userController = require('./api/controllers/userController');
 var setupController = require('./api/controllers/setupController');
 
 var app = express();
@@ -15,6 +16,7 @@ mongoose.connect(config.getDbConnectionString());
 staffController(app);
 staffHistoryController(app);
 departmentController(app);
+userController(app);
 setupController(app);
 
 app.listen(port, function() {

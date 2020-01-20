@@ -1,6 +1,9 @@
+var bcrypt = require('bcryptjs');
+
 var Staff = require('../models/staffModel');
 var Department = require('../models/departmentModel');
 var History = require('../models/staffHistoryModel');
+var User = require('../models/userModel');
 
 module.exports = function(app) {
     app.get('/api/setupStaff', function(req, res) {
@@ -26,5 +29,19 @@ module.exports = function(app) {
                 res.status(500).json(err);
             res.json(result);
         })
+    })
+    app.get('/api/setupUser', function(req, res) {
+        var saltVal = bcrypt.genSaltSync(10);
+        bcrypt.hash("123456", saltVal, function(err, hashedPass) {
+            if (err)
+                req.status(500).json(err);
+            var seedUser = { "username": "vnqmai", "password": hashedPass, "salt": saltVal };
+            User.create(seedUser, function(err, result) {
+                    if (err)
+                        res.status(500).json(err);
+                    res.json(result);
+                })
+                // res.send(hashedPass);
+        });
     })
 }
