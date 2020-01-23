@@ -7,9 +7,9 @@ function getAllStaff(res) {
         .populate('histories')
         .exec(function(err, result) {
             if (err)
-                res.status(500).json(err);
+                return res.status(500).json(err);
 
-            res.json(result);
+            return res.json(result);
         });
 }
 
@@ -19,13 +19,13 @@ module.exports = function(app) {
     })
 
     app.get('/staff/:id', function(req, res) {
-        Staff.findById({ _id: req.params.id }, function(err, result) {
-            if (err)
-                res.status(500).json(err);
-            res.json(result);
-        });
-    })
-
+            Staff.findById({ _id: req.params.id }, function(err, result) {
+                if (err)
+                    return res.status(500).json(err);
+                return res.json(result);
+            });
+        })
+        // http://localhost:3001/staff/filter
     app.post('/staff/filter', jsonEncodeParser, function(req, res) {
         Staff.aggregate().project({
                 fullname: { $concat: ['$lastName', ' ', '$firstName'] },
@@ -42,8 +42,8 @@ module.exports = function(app) {
             }).match({ fullname: req.body.fullname, department: req.body.department })
             .exec(function(err, result) {
                 if (err)
-                    res.status(500).json(err);
-                res.json(result);
+                    return res.status(500).json(err);
+                return res.json(result);
             });
     })
 
@@ -62,7 +62,7 @@ module.exports = function(app) {
         };
         Staff.create(staff, function(err) {
             if (err)
-                res.status(500).json(err);
+                return res.status(500).json(err);
             getAllStaff(res);
         })
     })
@@ -82,7 +82,7 @@ module.exports = function(app) {
         };
         Staff.update({ _id: req.body._id }, staff, function(err) {
             if (err)
-                res.status(500).json(err);
+                return res.status(500).json(err);
             getAllStaff(res);
         })
     })

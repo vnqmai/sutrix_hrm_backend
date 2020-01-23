@@ -23,11 +23,15 @@ module.exports = function(app) {
         })
     })
     app.get('/api/setupHistory', function(req, res) {
-        var seedHistory = { "historyDate": "2010/10/20", "historyActivity": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. Lorem Ipsum is simply dummy text of the printing and typesetting.", staff: "5e242aa6d361a305c0cfafe2" };
+        var seedHistory = {
+            historyDate: "2010/10/20",
+            historyActivity: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. Lorem Ipsum is simply dummy text of the printing and typesetting.",
+            staff: "5e2834c3fe643132d41f8120"
+        };
         History.create(seedHistory, function(err, result) {
             if (err)
-                res.status(500).json(err);
-            res.json(result);
+                return res.status(500).json(err);
+            return res.json(result);
         })
     })
     app.get('/api/setupUser', function(req, res) {

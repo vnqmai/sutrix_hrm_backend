@@ -11,6 +11,8 @@ var app = express();
 var port = process.env.PORT || 3001;
 
 app.use('/assets', express.static(__dirname + '/public'));
+var cors = require('cors');
+app.use(cors());
 
 mongoose.connect(config.getDbConnectionString());
 staffController(app);

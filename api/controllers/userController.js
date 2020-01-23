@@ -10,11 +10,11 @@ module.exports = function(app) {
                 return res.status(404).json(err);
             if (result) {
                 if (bcrypt.compareSync(req.body.password, result.password))
-                    return res.status(500).json({ isSucces: true, errorMessege: null });
+                    return res.json({ isSuccess: true, errorMessage: null });
                 else
-                    return res.status(404).json({ isSucces: false, errorMessege: 'Password is not true.' });
+                    return res.json({ isSuccess: false, errorMessage: 'Password is not true.' });
             }
-            return res.status(404).json({ isSucces: false, errorMessege: 'Username not found.' });
+            return res.json({ isSuccess: false, errorMessage: 'Username not found.' });
         });
     })
 }

@@ -9,6 +9,7 @@ function getAllDepartment(res) {
 }
 
 module.exports = function(app) {
+    // http://localhost:3001/department
     app.get('/department', function(req, res) {
         getAllDepartment(res);
     })

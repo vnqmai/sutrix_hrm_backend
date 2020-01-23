@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var staffHistorySchema = Schema({
     historyDate: Date,
-    historyActiviy: String,
+    historyActivity: String,
     staff: { type: Schema.Types.ObjectId, ref: 'Staff' }
 });
 

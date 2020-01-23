@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var departmentSchema = Schema({
-    departmentName: String,
-    staffs: [{ type: Schema.Types.ObjectId, ref: 'Staff' }]
+    departmentName: String
 });
 
 var Department = mongoose.model('Department', departmentSchema);
