@@ -12,6 +12,7 @@ var staffSchema = Schema({
     email: String,
     joinDate: Date,
     department: String,
+    image: String,
     histories: [{ type: Schema.Types.ObjectId, ref: 'StaffHistory' }]
         // department: {
         //     departmentName: String
