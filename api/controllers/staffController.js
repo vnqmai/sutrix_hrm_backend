@@ -23,18 +23,30 @@ function getAllStaff(res) {
 
 module.exports = function(app) {
     app.get('/staff', function(req, res) {
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
         getAllStaff(res);
     })
 
     app.get('/staff/:id', function(req, res) {
-            Staff.findById({ _id: req.params.id }, function(err, result) {
-                if (err)
-                    return res.status(500).json(err);
-                return res.json(result);
-            });
-        })
-        // http://localhost:3001/staff/filter
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
+
+        Staff.findById({ _id: req.params.id }, function(err, result) {
+            if (err)
+                return res.status(500).json(err);
+            return res.json(result);
+        });
+    })
+
+    // http://localhost:3001/staff/filter
     app.post('/staff/filter', function(req, res) {
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
+
         Staff.aggregate().project({
                 fullname: { $concat: ['$lastName', ' ', '$firstName'] },
                 firstName: 1,
@@ -56,6 +68,10 @@ module.exports = function(app) {
     })
 
     app.post('/staff', upload.single('image'), function(req, res) {
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
+
         var staff = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -77,6 +93,10 @@ module.exports = function(app) {
     })
 
     app.put('/staff', upload.single('image'), function(req, res) {
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
+
         var staff = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,

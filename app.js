@@ -7,6 +7,7 @@ var departmentController = require('./api/controllers/departmentController');
 var userController = require('./api/controllers/userController');
 var alalyseController = require('./api/controllers/analyseController');
 var setupController = require('./api/controllers/setupController');
+var isAuth = require('./middleware/is-auth');
 
 var app = express();
 var port = process.env.PORT || 3001;
@@ -14,6 +15,7 @@ var port = process.env.PORT || 3001;
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(isAuth);
 
 app.use('/assets', express.static(__dirname + '/public'));
 // app.use('/uploads', express.static(__dirname + '/public/images/staff'));

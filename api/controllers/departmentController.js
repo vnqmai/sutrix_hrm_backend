@@ -11,6 +11,10 @@ function getAllDepartment(res) {
 module.exports = function(app) {
     // http://localhost:3001/department
     app.get('/department', function(req, res) {
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
+
         getAllDepartment(res);
     })
 }
