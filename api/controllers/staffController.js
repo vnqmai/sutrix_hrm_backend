@@ -58,7 +58,8 @@ module.exports = function(app) {
                 skype: 1,
                 email: 1,
                 joinDate: 1,
-                department: 1
+                department: 1,
+                image: 1
             }).match({ fullname: req.body.fullname, department: req.body.department })
             .exec(function(err, result) {
                 if (err)
@@ -97,19 +98,36 @@ module.exports = function(app) {
             return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
         }
 
-        var staff = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            birthDate: req.body.birthDate,
-            gender: req.body.gender,
-            address: req.body.address,
-            mobile: req.body.mobile,
-            skype: req.body.skype,
-            email: req.body.email,
-            joinDate: req.body.joinDate,
-            department: req.body.department,
-            image: 'http://localhost:3001/' + req.file.path.replace('public', 'assets').split('\\').join('/')
-        };
+        let staff;
+        if (req.file) {
+            staff = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthDate: req.body.birthDate,
+                gender: req.body.gender,
+                address: req.body.address,
+                mobile: req.body.mobile,
+                skype: req.body.skype,
+                email: req.body.email,
+                joinDate: req.body.joinDate,
+                department: req.body.department,
+                image: 'http://localhost:3001/' + req.file.path.replace('public', 'assets').split('\\').join('/')
+            };
+        } else {
+            staff = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthDate: req.body.birthDate,
+                gender: req.body.gender,
+                address: req.body.address,
+                mobile: req.body.mobile,
+                skype: req.body.skype,
+                email: req.body.email,
+                joinDate: req.body.joinDate,
+                department: req.body.department
+            };
+        }
+
         Staff.update({ _id: req.body._id }, staff, function(err) {
             if (err)
                 return res.status(500).json(err);
