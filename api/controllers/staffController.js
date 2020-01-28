@@ -84,7 +84,7 @@ module.exports = function(app) {
             email: req.body.email,
             joinDate: req.body.joinDate,
             department: req.body.department,
-            image: 'http://localhost:3001/' + req.file.path.replace('public', 'assets').split('\\').join('/')
+            image: 'https://sutrix-be.herokuapp.com/' + req.file.path.replace('public', 'assets').split('\\').join('/')
         };
         Staff.create(staff, function(err) {
             if (err)
@@ -111,7 +111,7 @@ module.exports = function(app) {
                 email: req.body.email,
                 joinDate: req.body.joinDate,
                 department: req.body.department,
-                image: 'http://localhost:3001/' + req.file.path.replace('public', 'assets').split('\\').join('/')
+                image: 'https://sutrix-be.herokuapp.com/' + req.file.path.replace('public', 'assets').split('\\').join('/')
             };
         } else {
             staff = {
