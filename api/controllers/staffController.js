@@ -21,6 +21,14 @@ function getAllStaff(res) {
     })
 }
 
+function getStaffById(req, res) {
+    Staff.findOne({ _id: req.body._id }, function(err, result) {
+        if (err)
+            return res.status(500).json(err);
+        return res.json(result);
+    })
+}
+
 module.exports = function(app) {
     app.get('/staff', function(req, res) {
         if (!req.isAuth) {
@@ -47,25 +55,62 @@ module.exports = function(app) {
             return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
         }
 
-        Staff.aggregate().project({
-                fullname: { $concat: ['$lastName', ' ', '$firstName'] },
-                firstName: 1,
-                lastName: 1,
-                birthDate: 1,
-                gender: 1,
-                address: 1,
-                mobile: 1,
-                skype: 1,
-                email: 1,
-                joinDate: 1,
-                department: 1,
-                image: 1
-            }).match({ fullname: req.body.fullname, department: req.body.department })
-            .exec(function(err, result) {
+        if (req.body.fullname === "" && req.body.department === "") {
+            getAllStaff(res);
+        }
+
+        if (req.body.fullname === '' && req.body.department !== '') {
+            Staff.find({ department: req.body.department }, function(err, result) {
                 if (err)
                     return res.status(500).json(err);
                 return res.json(result);
             });
+        }
+
+        if (req.body.fullname !== '' && req.body.department === '') {
+            Staff.aggregate().project({
+                    fullname: { $concat: ['$lastName', ' ', '$firstName'] },
+                    firstName: 1,
+                    lastName: 1,
+                    birthDate: 1,
+                    gender: 1,
+                    address: 1,
+                    mobile: 1,
+                    skype: 1,
+                    email: 1,
+                    joinDate: 1,
+                    department: 1,
+                    image: 1
+                }).match({ fullname: req.body.fullname })
+                .exec(function(err, result) {
+                    if (err)
+                        return res.status(500).json(err);
+                    return res.json(result);
+                });
+        }
+
+
+        if (req.body.fullname !== '' && req.body.department !== '') {
+            Staff.aggregate().project({
+                    fullname: { $concat: ['$lastName', ' ', '$firstName'] },
+                    firstName: 1,
+                    lastName: 1,
+                    birthDate: 1,
+                    gender: 1,
+                    address: 1,
+                    mobile: 1,
+                    skype: 1,
+                    email: 1,
+                    joinDate: 1,
+                    department: 1,
+                    image: 1
+                }).match({ fullname: req.body.fullname, department: req.body.department })
+                .exec(function(err, result) {
+                    if (err)
+                        return res.status(500).json(err);
+                    return res.json(result);
+                });
+        }
     })
 
     app.post('/staff', upload.single('image'), function(req, res) {
@@ -73,19 +118,36 @@ module.exports = function(app) {
             return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
         }
 
-        var staff = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            birthDate: req.body.birthDate,
-            gender: req.body.gender,
-            address: req.body.address,
-            mobile: req.body.mobile,
-            skype: req.body.skype,
-            email: req.body.email,
-            joinDate: req.body.joinDate,
-            department: req.body.department,
-            image: 'https://sutrix-be.herokuapp.com/' + req.file.path.replace('public', 'assets').split('\\').join('/')
-        };
+        let staff;
+        if (req.file) {
+            staff = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthDate: req.body.birthDate,
+                gender: req.body.gender,
+                address: req.body.address,
+                mobile: req.body.mobile,
+                skype: req.body.skype,
+                email: req.body.email,
+                joinDate: req.body.joinDate,
+                department: req.body.department,
+                image: 'https://sutrix-be.herokuapp.com/' + req.file.path.replace('public', 'assets').split('\\').join('/')
+            };
+        } else {
+            staff = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthDate: req.body.birthDate,
+                gender: req.body.gender,
+                address: req.body.address,
+                mobile: req.body.mobile,
+                skype: req.body.skype,
+                email: req.body.email,
+                joinDate: req.body.joinDate,
+                department: req.body.department
+            };
+        }
+
         Staff.create(staff, function(err) {
             if (err)
                 return res.status(500).json(err);
@@ -131,7 +193,8 @@ module.exports = function(app) {
         Staff.update({ _id: req.body._id }, staff, function(err) {
             if (err)
                 return res.status(500).json(err);
-            getAllStaff(res);
+            getStaffById(req, res);
         })
     })
+
 }
