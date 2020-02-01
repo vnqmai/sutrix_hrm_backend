@@ -31,9 +31,9 @@ function getStaffById(req, res) {
 
 module.exports = function(app) {
     app.get('/staff', function(req, res) {
-        if (!req.isAuth) {
-            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
-        }
+        // if (!req.isAuth) {
+        //     return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        // }
         getAllStaff(res);
     })
 
@@ -75,6 +75,7 @@ module.exports = function(app) {
                     birthDate: 1,
                     gender: 1,
                     address: 1,
+                    id: 1,
                     mobile: 1,
                     skype: 1,
                     email: 1,
@@ -98,6 +99,7 @@ module.exports = function(app) {
                     birthDate: 1,
                     gender: 1,
                     address: 1,
+                    id: 1,
                     mobile: 1,
                     skype: 1,
                     email: 1,
@@ -126,6 +128,7 @@ module.exports = function(app) {
                 birthDate: req.body.birthDate,
                 gender: req.body.gender,
                 address: req.body.address,
+                id: req.body.id,
                 mobile: req.body.mobile,
                 skype: req.body.skype,
                 email: req.body.email,
@@ -140,6 +143,7 @@ module.exports = function(app) {
                 birthDate: req.body.birthDate,
                 gender: req.body.gender,
                 address: req.body.address,
+                id: req.body.id,
                 mobile: req.body.mobile,
                 skype: req.body.skype,
                 email: req.body.email,
@@ -168,6 +172,7 @@ module.exports = function(app) {
                 birthDate: req.body.birthDate,
                 gender: req.body.gender,
                 address: req.body.address,
+                id: req.body.id,
                 mobile: req.body.mobile,
                 skype: req.body.skype,
                 email: req.body.email,
@@ -182,6 +187,7 @@ module.exports = function(app) {
                 birthDate: req.body.birthDate,
                 gender: req.body.gender,
                 address: req.body.address,
+                id: req.body.id,
                 mobile: req.body.mobile,
                 skype: req.body.skype,
                 email: req.body.email,

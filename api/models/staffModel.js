@@ -7,6 +7,7 @@ var staffSchema = Schema({
     birthDate: Date,
     gender: Boolean,
     address: String,
+    id: String,
     mobile: String,
     skype: String,
     email: String,
