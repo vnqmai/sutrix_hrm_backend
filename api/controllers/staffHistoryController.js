@@ -21,15 +21,20 @@ module.exports = function(app) {
     })
 
     app.delete('/staffHistory/:id', function(req, res) {
-        if (!req.isAuth) {
-            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
-        }
+        // if (!req.isAuth) {
+        //     return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        // }
 
-        History.remove({ _id: req.params.id }, function(err) {
+        History.findOne({ _id: req.params.id }, function(err, removedItem) {
             if (err)
                 return res.status(500).json(err);
-            findHistoryByStaffId(res, req.params.staffId);
-        })
+
+            History.deleteOne({ _id: req.params.id }, function(err) {
+                if (err)
+                    return res.status(500).json(err);
+                findHistoryByStaffId(res, removedItem.staff);
+            })
+        });
     })
 
     app.post('/staffHistory', jsonEncodeParser, function(req, res) {
