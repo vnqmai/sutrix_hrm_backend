@@ -21,9 +21,9 @@ module.exports = function(app) {
     })
 
     app.delete('/staffHistory/:id', function(req, res) {
-        // if (!req.isAuth) {
-        //     return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
-        // }
+        if (!req.isAuth) {
+            return res.json({ status: 'ERROR', errorMessage: 'Unauthorized' });
+        }
 
         History.findOne({ _id: req.params.id }, function(err, removedItem) {
             if (err)
